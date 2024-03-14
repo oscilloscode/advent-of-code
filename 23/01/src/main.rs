@@ -20,7 +20,7 @@ struct Args {
     verbose: bool,
 }
 
-const part_functions: [fn(u8, &str) -> u32; 2] = [part1, part2];
+const PART_FUNCTIONS: [fn(u8, &str) -> u32; 2] = [part1, part2];
 
 fn get_input_path(part: u8, example: bool) -> PathBuf {
     let mut path = std::env::current_exe().unwrap();
@@ -62,7 +62,7 @@ fn main() {
             let input = fs::read_to_string(path).expect("Cannot read file.");
             info!("Input:\n{}\n", input);
 
-            let result = part_functions[usize::from(part - 1)](args.implementation, &input);
+            let result = PART_FUNCTIONS[usize::from(part - 1)](args.implementation, &input);
             println!("\n--------------");
             println!(
                 "Result Part {} Implementation {}: {}",
