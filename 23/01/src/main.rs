@@ -9,8 +9,8 @@ struct Args {
     part: Option<u8>,
 
     /// Number of the implementation (requires "part" to be set).
-    #[arg(short, long, requires("part"))]
-    implementation: Option<u8>,
+    #[arg(short, long, default_value_t = 0, requires("part"))]
+    implementation: u8,
 
     #[arg(short, long)]
     example: bool,
@@ -19,7 +19,7 @@ struct Args {
     verbose: bool,
 }
 
-const part_functions: [fn(&str) -> u32; 2] = [part1, part2];
+const part_functions: [fn(u8, &str) -> u32; 2] = [part1, part2];
 
 fn get_input_path(part: u8, example: bool) -> PathBuf {
     let mut path = std::env::current_exe().unwrap();
@@ -57,9 +57,12 @@ fn main() {
                 println!("Input:\n{}\n", input);
             }
 
-            let result = part_functions[usize::from(part - 1)](&input);
+            let result = part_functions[usize::from(part - 1)](args.implementation, &input);
             println!("\n--------------");
-            println!("Result Part {}: {}", part, result);
+            println!(
+                "Result Part {} Implementation {}: {}",
+                part, args.implementation, result
+            );
         }
         None => todo!(),
         _ => unreachable!(),
