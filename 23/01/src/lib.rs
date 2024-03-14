@@ -1,3 +1,5 @@
+use log::{debug, info, trace};
+
 // Improvement ideas:
 // - Is the "chars" iterator double ended? If yes, don't put all nums in Vec but
 // simply call next on both front and back until one digit is found each. Don't
@@ -10,22 +12,24 @@ pub fn part1(implementation: u8, input: &str) -> u32 {
 }
 
 fn part1_implementation1(input: &str) -> u32 {
+    info!("part1_implementation1");
+
     let mut nums: Vec<char> = Vec::with_capacity(32);
     let mut calibration_sum = 0;
 
     for line in input.lines() {
-        println!("line: {}", line);
+        debug!("line: {}", line);
         nums.clear();
         for c in line.chars() {
-            println!("{}", c);
+            trace!("{}", c);
             if c.is_digit(10) {
                 nums.push(c);
             }
         }
-        println!("nums: {:?}", nums);
+        debug!("nums: {:?}", nums);
         let calibration_value =
             10 * nums[0].to_digit(10).unwrap() + nums.last().unwrap().to_digit(10).unwrap();
-        println!("calibration value: {}", calibration_value);
+        debug!("calibration value: {}", calibration_value);
         calibration_sum += calibration_value;
     }
 

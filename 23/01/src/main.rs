@@ -1,5 +1,6 @@
 use aoc_23_01::{part1, part2};
 use clap::Parser;
+use log::info;
 use std::{fs, path::PathBuf};
 
 #[derive(Parser, Debug)]
@@ -46,16 +47,20 @@ fn get_input_path(part: u8, example: bool) -> PathBuf {
 fn main() {
     let args = Args::parse();
 
-    println!("args: {:?}", args);
+    if args.verbose {
+        simple_logger::init_with_level(log::Level::Trace).unwrap();
+    } else {
+        simple_logger::init_with_level(log::Level::Error).unwrap();
+    }
+
+    info!("args: {:?}", args);
 
     match args.part {
         Some(part) if (1..=2).contains(&part) => {
             let path = get_input_path(part, args.example);
-            println!("p: {:?}", path);
+            info!("Input path: {:?}", path);
             let input = fs::read_to_string(path).expect("Cannot read file.");
-            if args.verbose {
-                println!("Input:\n{}\n", input);
-            }
+            info!("Input:\n{}\n", input);
 
             let result = part_functions[usize::from(part - 1)](args.implementation, &input);
             println!("\n--------------");
