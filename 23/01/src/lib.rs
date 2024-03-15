@@ -6,7 +6,8 @@ use log::{debug, info, trace};
 // forget about handling one or no digits.
 pub fn part1(implementation: u8, input: &str) -> u32 {
     match implementation {
-        0 | 1 => part1_implementation1(input),
+        1 => part1_implementation1(input),
+        0 | 2 => part1_implementation2(input),
         _ => panic!("No implementation {} for part 1", implementation),
     }
 }
@@ -29,6 +30,37 @@ fn part1_implementation1(input: &str) -> u32 {
         debug!("nums: {:?}", nums);
         let calibration_value =
             10 * nums[0].to_digit(10).unwrap() + nums.last().unwrap().to_digit(10).unwrap();
+        debug!("calibration value: {}", calibration_value);
+        calibration_sum += calibration_value;
+    }
+
+    calibration_sum
+}
+
+fn part1_implementation2(input: &str) -> u32 {
+    info!("part1_implementation2");
+
+    let mut nums: Vec<char> = Vec::with_capacity(32);
+    let mut calibration_sum = 0;
+
+    for line in input.lines() {
+        debug!("line: {}", line);
+        let first_digit = line
+            .chars()
+            .find(|x| x.is_ascii_digit())
+            .expect("No first digit found!");
+        let last_digit = line
+            .chars()
+            .rfind(|x| x.is_ascii_digit())
+            .expect("No last digit found!");
+        trace!(
+            "first digit: {:?}  last digit: {:?}",
+            first_digit,
+            last_digit
+        );
+
+        let calibration_value =
+            10 * first_digit.to_digit(10).unwrap() + last_digit.to_digit(10).unwrap();
         debug!("calibration value: {}", calibration_value);
         calibration_sum += calibration_value;
     }
