@@ -20,7 +20,7 @@ struct Args {
     verbose: bool,
 }
 
-const PART_FUNCTIONS: [fn(u8, &str) -> u32; 2] = [part1, part2];
+const PART_FUNCTIONS: [fn(u8, &str) -> usize; 2] = [part1, part2];
 
 fn get_input_path(part: u8, example: bool) -> PathBuf {
     let mut path = std::env::current_exe().unwrap();
