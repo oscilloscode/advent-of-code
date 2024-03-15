@@ -14,6 +14,13 @@ pub fn part1(implementation: u8, input: &str) -> u32 {
 fn part1_implementation1(input: &str) -> u32 {
     info!("part1_implementation1");
 
+    let fish = input
+        .trim()
+        .split(',')
+        .map(|x| x.parse::<u8>().unwrap())
+        .collect::<Vec<_>>();
+
+    println!("fish: {fish:?}");
     0
 }
 
@@ -35,6 +42,6 @@ mod tests {
 
     #[test]
     fn mark_ones() {
-        assert_eq!(2+2, 4);
+        assert_eq!(2 + 2, 4);
     }
 }
