@@ -60,16 +60,12 @@ fn part1_implementation1(input: &str) -> usize {
     fish.len()
 }
 
+// Just call part1 functions as the difference is only the amount of days.
 pub fn part2(implementation: u8, input: &str) -> usize {
     match implementation {
-        0 | 1 => part2_implementation1(input),
+        0 | 1 => part1_implementation1(input),
         _ => panic!("No implementation {} for part 2", implementation),
     }
-}
-
-fn part2_implementation1(input: &str) -> usize {
-    info!("part2_implementation1");
-    0
 }
 
 #[cfg(test)]
