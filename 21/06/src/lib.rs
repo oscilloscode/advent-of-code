@@ -30,6 +30,15 @@ fn part1_implementation1(input: &str) -> usize {
         .map(|x| x.parse::<u8>().unwrap())
         .collect::<Vec<_>>();
 
+    // let mut fish = line_iter
+    //     .next()
+    //     .expect("Input contains no first line for amount of days")
+    //     .chars()
+    //     .filter(|c| c.is_ascii_digit())
+    //     .flat_map(|c| c.to_digit(10))
+    //     .map(|d| d as u8)
+    //     .collect::<Vec<u8>>();
+
     debug!("Parsed days: {days:?}");
     debug!("Parsed Vec: {fish:?}");
 
