@@ -1,12 +1,7 @@
 use log::{debug, info, trace};
 
 const BIRTH_COUNT: u8 = 8;
-const DAY_COUNT: usize = 256;
 
-// Improvement ideas:
-// - Is the "chars" iterator double ended? If yes, don't put all nums in Vec but
-// simply call next on both front and back until one digit is found each. Don't
-// forget about handling one or no digits.
 pub fn part1(implementation: u8, input: &str) -> usize {
     match implementation {
         0 | 1 => part1_implementation1(input),
@@ -20,15 +15,25 @@ pub fn part1(implementation: u8, input: &str) -> usize {
 fn part1_implementation1(input: &str) -> usize {
     info!("part1_implementation1");
 
-    let mut fish = input
+    let mut line_iter = input.lines();
+    let days = line_iter
+        .next()
+        .expect("Input contains no first line for amount of days")
+        .parse::<usize>()
+        .expect("Can't parse first line for amount of days");
+
+    let mut fish = line_iter
+        .next()
+        .expect("Input contains no first line for amount of days")
         .trim()
         .split(',')
         .map(|x| x.parse::<u8>().unwrap())
         .collect::<Vec<_>>();
 
+    debug!("Parsed days: {days:?}");
     debug!("Parsed Vec: {fish:?}");
 
-    for i in 1..=DAY_COUNT {
+    for i in 1..=days {
         let mut baby_count = 0;
         for f in &mut fish {
             if *f == 0 {
