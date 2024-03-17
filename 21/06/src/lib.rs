@@ -26,7 +26,7 @@ fn part1_implementation1(input: &str) -> usize {
 
     let mut fish = line_iter
         .next()
-        .expect("Input contains no first line for amount of days")
+        .expect("Input contains no second line for initial state")
         .trim()
         .split(',')
         .map(|x| x.parse::<u8>().unwrap())
@@ -74,9 +74,9 @@ fn part1_implementation2(input: &str) -> usize {
         .parse::<usize>()
         .expect("Can't parse first line for amount of days");
 
-    let mut fish = line_iter
+    let fish = line_iter
         .next()
-        .expect("Input contains no first line for amount of days")
+        .expect("Input contains no second line for initial state")
         .trim()
         .split(',')
         .map(|x| x.parse::<u8>().unwrap())
@@ -117,12 +117,15 @@ fn single_fish(mut count: u8, mut days: usize) -> usize {
     children + 1
 }
 
+// The following numbers correspond to the amount of fish present after 256 days when starting with
+// one fish. The index of the array corresponds to the internal count of the starting fish.
+// E.g., a fish with an internal count of 3 will result in 5217223242 fish after 256 days.
 const FISH_AT_256_DAYS: [usize; 9] = [
     6703087164, 6206821033, 5617089148, 5217223242, 4726100874, 4368232009, 3989468462, 3649885552,
     3369186778,
 ];
 
-// Hardcoded for 256 days!!!
+// Hardcoded for 256 days but will panic!
 fn part2_implementation3(input: &str) -> usize {
     info!("part1_implementation3");
 
@@ -133,9 +136,9 @@ fn part2_implementation3(input: &str) -> usize {
         .parse::<usize>()
         .expect("Can't parse first line for amount of days");
 
-    let mut fish = line_iter
+    let fish = line_iter
         .next()
-        .expect("Input contains no first line for amount of days")
+        .expect("Input contains no second line for initial state")
         .trim()
         .split(',')
         .map(|x| x.parse::<u8>().unwrap())
@@ -152,12 +155,28 @@ fn part2_implementation3(input: &str) -> usize {
     amount
 }
 
+// Hardcoded for 256 days and will produce wrong output!!!
+fn part2_implementation4(input: &str) -> usize {
+    info!("part1_implementation4");
+
+    input
+        .lines()
+        .skip(1)
+        .next()
+        .expect("Input contains no first line for amount of days")
+        .chars()
+        .flat_map(|c| c.to_digit(10))
+        .map(|d| FISH_AT_256_DAYS[d as usize])
+        .sum()
+}
+
 // Just call part1 functions as the difference is only the amount of days.
 pub fn part2(implementation: u8, input: &str) -> usize {
     match implementation {
         1 => part1_implementation1(input),
         2 => part1_implementation2(input),
-        0 | 3 => part2_implementation3(input),
+        3 => part2_implementation3(input),
+        0 | 4 => part2_implementation4(input),
         _ => panic!("No implementation {} for part 2", implementation),
     }
 }
