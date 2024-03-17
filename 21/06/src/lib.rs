@@ -117,11 +117,47 @@ fn single_fish(mut count: u8, mut days: usize) -> usize {
     children + 1
 }
 
+const FISH_AT_256_DAYS: [usize; 9] = [
+    6703087164, 6206821033, 5617089148, 5217223242, 4726100874, 4368232009, 3989468462, 3649885552,
+    3369186778,
+];
+
+// Hardcoded for 256 days!!!
+fn part2_implementation3(input: &str) -> usize {
+    info!("part1_implementation3");
+
+    let mut line_iter = input.lines();
+    let days = line_iter
+        .next()
+        .expect("Input contains no first line for amount of days")
+        .parse::<usize>()
+        .expect("Can't parse first line for amount of days");
+
+    let mut fish = line_iter
+        .next()
+        .expect("Input contains no first line for amount of days")
+        .trim()
+        .split(',')
+        .map(|x| x.parse::<u8>().unwrap())
+        .collect::<Vec<_>>();
+
+    if days != 256 {
+        panic!("Implemenation hardcoded for 256 days!");
+    }
+
+    let mut amount = 0;
+    for f in fish {
+        amount += FISH_AT_256_DAYS[f as usize];
+    }
+    amount
+}
+
 // Just call part1 functions as the difference is only the amount of days.
 pub fn part2(implementation: u8, input: &str) -> usize {
     match implementation {
         1 => part1_implementation1(input),
-        0 | 2 => part1_implementation2(input),
+        2 => part1_implementation2(input),
+        0 | 3 => part2_implementation3(input),
         _ => panic!("No implementation {} for part 2", implementation),
     }
 }
